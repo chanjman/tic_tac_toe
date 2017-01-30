@@ -1,4 +1,5 @@
 module TicTacToe
+  # Board setup and logic
   class Board
     attr_reader :grid
     def initialize(args = {})
@@ -21,7 +22,7 @@ module TicTacToe
 
     def formatted_grid
       grid.each do |row|
-        puts row.map { |cell| cell.value.empty? ? '[]' : cell.value }.join(' ')
+        puts row.map { |cell| cell.value.empty? ? '[ ]' : "[#{cell.value}]" }.join(' ')
       end
     end
 

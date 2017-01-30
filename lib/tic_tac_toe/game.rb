@@ -1,4 +1,5 @@
 module TicTacToe
+  # Tracks the gameplay
   class Game
     attr_reader :players, :board, :current_player, :other_player
 
@@ -30,7 +31,7 @@ module TicTacToe
         '6' => [1, 2],
         '7' => [2, 0],
         '8' => [2, 1],
-        '9' => [2, 2],
+        '9' => [2, 2]
       }
       mapping[human_move]
     end
@@ -42,7 +43,8 @@ module TicTacToe
 
     def play
       puts "#{current_player.name} has randomly been selected as the first player"
-      while true
+      puts ''
+      loop do
         board.formatted_grid
         puts ''
         puts solicit_move

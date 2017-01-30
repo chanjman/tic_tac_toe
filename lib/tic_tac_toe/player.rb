@@ -8,4 +8,7 @@ module TicTacToe
       @name = args[:name]
     end
   end
+
+  class Human < Player
+  end
 end
