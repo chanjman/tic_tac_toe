@@ -6,12 +6,12 @@ module TicTacToe
       @grid = args.fetch(:grid, default_grid)
     end
 
-    def get_cell(x, y)
-      grid[x][y]
+    def get_cell(first_coordinate, second_coordinate)
+      grid[first_coordinate][second_coordinate]
     end
 
-    def set_cell(x, y, value)
-      get_cell(x, y).value = value
+    def set_cell(first_coordinate, second_coordinate, value)
+      get_cell(first_coordinate, second_coordinate).value = value
     end
 
     def game_over
