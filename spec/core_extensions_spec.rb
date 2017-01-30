@@ -10,7 +10,7 @@ describe Array do
       expect(['', 'bradva', Object.new, :a].all_empty?).to be_falsey
     end
 
-    it 'returns truw for an empty Array' do
+    it 'returns true for an empty Array' do
       expect([].all_empty?).to be_truthy
     end
   end

@@ -5,7 +5,7 @@ module TicTacToe
     let(:mario) { Player.new(color: 'X', name: 'mario') }
     let(:martina) { Player.new(color: 'O', name: 'martina') }
 
-    context "#initialize" do
+    context '#initialize' do
       it 'randomly selects a current_player' do
         allow_any_instance_of(Array).to receive(:shuffle) { [mario, martina] }
         game = Game.new([martina, mario])
@@ -19,7 +19,7 @@ module TicTacToe
       end
     end
 
-    context "#switch_players" do
+    context '#switch_players' do
       it 'will set @current_player to @other_player' do
         game = Game.new([mario, martina])
         other_player = game.other_player
@@ -35,16 +35,16 @@ module TicTacToe
       end
     end
 
-    context "#solicit_move" do
+    context '#solicit_move' do
       it 'asks the player to make a move' do
         game = Game.new([mario, martina])
         allow(game).to receive(:current_player) { mario }
-        expected = "mario: Enter a number between 1 and 9 to make your move"
+        expected = 'mario: Enter a number between 1 and 9 to make your move'
         expect(game.solicit_move).to eq(expected)
       end
     end
 
-    context "#get_move" do
+    context '#get_move' do
       it 'converts human_move of 1 to [0, 0]' do
         game = Game.new([mario, martina])
         expect(game.get_move('1')).to eq([0, 0])
@@ -56,11 +56,11 @@ module TicTacToe
       end
     end
 
-    context "#game_over_message" do
+    context '#game_over_message' do
       it "returns '{current_player name} won!' if board show a winner" do
         game = Game.new([mario, martina])
         allow(game).to receive(:current_player) { mario }
-        allow(game.board).to receive(:game_over) { :winner}
+        allow(game.board).to receive(:game_over) { :winner }
         expect(game.game_over_message).to eq('mario won!')
       end
 
@@ -68,7 +68,19 @@ module TicTacToe
         game = Game.new([mario, martina])
         allow(game).to receive(:current_player) { mario }
         allow(game.board).to receive(:game_over) { :draw }
-        expect(game.game_over_message).to eq ('The game ended in a tie.')
+        expect(game.game_over_message).to eq 'The game ended in a tie.'
+      end
+    end
+
+    context '#invalid_move' do
+      it 'returns false if input is not between 1 and 9' do
+        game = Game.new([mario, martina])
+        expect(game.check_move('54')).to be_falsey
+      end
+
+      it 'returns false if input is not a number' do
+        game = Game.new([mario, martina])
+        expect(game.check_move('r')).to be_falsey
       end
     end
   end

@@ -18,7 +18,7 @@ module TicTacToe
     end
 
     def get_move(human_move = gets.chomp)
-      human_move_to_coordinate(human_move)
+      check_move(human_move) ? human_move_to_coordinate(human_move) : invalid_move
     end
 
     def human_move_to_coordinate(human_move)
@@ -34,6 +34,19 @@ module TicTacToe
         '9' => [2, 2]
       }
       mapping[human_move]
+    end
+
+    def check_move(move)
+      valid_move.include?(move)
+    end
+
+    def valid_move
+      Array('1'..'9')
+    end
+
+    def invalid_move
+      puts "Hey there #{current_player.name}; please pick between 1 and 9"
+      get_move
     end
 
     def game_over_message
