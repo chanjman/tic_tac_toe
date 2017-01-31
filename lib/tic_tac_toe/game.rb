@@ -14,14 +14,27 @@ module TicTacToe
     end
 
     def solicit_move
-      "#{current_player.name}: Enter a number between 1 and 9 to make your move"
+      "It's #{current_player.name}'s turn; Enter a number between 1 and 9"
     end
 
-    def get_move(human_move = gets.chomp)
-      check_move(human_move) ? human_move_to_coordinate(human_move) : invalid_move
+    def player_input
+      input = get_move
+      until check_if_move_valid(input)
+        puts "Wrong! #{current_player.name}, please input a number between 1 and 9"
+        input = get_move
+      end
+      until check_if_cell_empty(move_to_coordinate(input))
+        puts 'Wrong, cell not empty! Try again'
+        input = get_move
+      end
+      move_to_coordinate(input)
     end
 
-    def human_move_to_coordinate(human_move)
+    def get_move
+      gets.chomp
+    end
+
+    def move_to_coordinate(move)
       mapping = {
         '1' => [0, 0],
         '2' => [0, 1],
@@ -33,20 +46,19 @@ module TicTacToe
         '8' => [2, 1],
         '9' => [2, 2]
       }
-      mapping[human_move]
+      mapping[move]
     end
 
-    def check_move(move)
-      valid_move.include?(move)
+    def check_if_cell_empty(cell)
+      board.get_cell(cell[0], cell[1]).value.empty?
+    end
+
+    def check_if_move_valid(move)
+      valid_move.include? move
     end
 
     def valid_move
       Array('1'..'9')
-    end
-
-    def invalid_move
-      puts "Hey there #{current_player.name}; please pick between 1 and 9"
-      get_move
     end
 
     def game_over_message
@@ -62,12 +74,14 @@ module TicTacToe
       puts "#{current_player.name} has randomly been selected as the first player"
       puts ''
       loop do
+        system 'clear'
         board.formatted_grid
         puts ''
         puts solicit_move
-        x, y = get_move
+        x, y = player_input
         board.set_cell(x, y, current_player.color)
         if board.game_over
+          system 'clear'
           puts game_over_message
           board.formatted_grid
           return

@@ -10,5 +10,6 @@ puts 'Player 2, please input your name'
 player_2_name = gets.chomp
 player_2 = TicTacToe::Human.new(color: 'O', name: player_2_name)
 
+puts "#{player_1_name} is 'X'. #{player_2_name} is 'O'"
 players = [player_1, player_2]
 TicTacToe::Game.new(players).play

@@ -39,7 +39,7 @@ module TicTacToe
       it 'asks the player to make a move' do
         game = Game.new([mario, martina])
         allow(game).to receive(:current_player) { mario }
-        expected = 'mario: Enter a number between 1 and 9 to make your move'
+        expected = "It's mario's turn; Enter a number between 1 and 9"
         expect(game.solicit_move).to eq(expected)
       end
     end
@@ -47,12 +47,12 @@ module TicTacToe
     context '#get_move' do
       it 'converts human_move of 1 to [0, 0]' do
         game = Game.new([mario, martina])
-        expect(game.get_move('1')).to eq([0, 0])
+        expect(game.move_to_coordinate('1')).to eq([0, 0])
       end
 
       it 'converts human move of 5 to [1, 1]' do
         game = Game.new([mario, martina])
-        expect(game.get_move('5')).to eq([1, 1])
+        expect(game.move_to_coordinate('5')).to eq([1, 1])
       end
     end
 
@@ -73,14 +73,16 @@ module TicTacToe
     end
 
     context '#invalid_move' do
-      it 'returns false if input is not between 1 and 9' do
+      it 'returns false input is not between 1 and 9' do
         game = Game.new([mario, martina])
-        expect(game.check_move('54')).to be_falsey
+        allow(game).to receive(:current_player) { mario }
+        expect(game.check_if_move_valid('54')).to be_falsey
       end
 
       it 'returns false if input is not a number' do
         game = Game.new([mario, martina])
-        expect(game.check_move('r')).to be_falsey
+        allow(game).to receive(:current_player) { mario }
+        expect(game.check_if_move_valid('r')).to be_falsey
       end
     end
   end
