@@ -14,23 +14,26 @@ module TicTacToe
     end
 
     def solicit_move
-      "It's #{current_player.name}'s turn; Enter a number between 1 and 9"
+      "#{current_player.name}: Enter a number between 1 and 9"
     end
 
     def player_input
-      input = get_move
-      until check_if_move_valid(input)
-        puts "Wrong! #{current_player.name}, please input a number between 1 and 9"
-        input = get_move
-      end
-      until check_if_cell_empty(move_to_coordinate(input))
-        puts 'Wrong, cell not empty! Try again'
-        input = get_move
-      end
-      move_to_coordinate(input)
+      return human_player_input if current_player.class == Human
+      ai_input
     end
 
-    def get_move
+    def human_player_input
+      puts solicit_move
+      input = get_human_move
+      check_if_move_valid(input)
+    end
+
+    def ai_input
+      input = (1 + rand(9)).to_s
+      check_if_move_valid(input)
+    end
+
+    def get_human_move
       gets.chomp
     end
 
@@ -50,15 +53,41 @@ module TicTacToe
     end
 
     def check_if_cell_empty(cell)
-      board.get_cell(cell[0], cell[1]).value.empty?
+      if board.get_cell(cell[0], cell[1]).value.empty?
+        cell
+      else
+        cell_not_empty
+      end
     end
 
     def check_if_move_valid(move)
-      valid_move.include? move
+      if valid_move.include? move
+        check_if_cell_empty(move_to_coordinate(move))
+      else
+        invalid_move
+      end
     end
 
     def valid_move
       Array('1'..'9')
+    end
+
+    def invalid_move
+      puts 'Sorry, but that is invalid move.' if current_player.class == Human
+      player_input
+    end
+
+    def cell_not_empty
+      puts 'Sorry, but that cell is not empty.' if current_player.class == Human
+      player_input
+    end
+
+    def get_empty_cells
+      empty_cells = []
+      board.grid.map do |row|
+        row.map { |cell| empty_cells << cell if cell.value.empty? }
+      end
+      empty_cells
     end
 
     def game_over_message
@@ -77,7 +106,6 @@ module TicTacToe
         system 'clear'
         board.formatted_grid
         puts ''
-        puts solicit_move
         x, y = player_input
         board.set_cell(x, y, current_player.color)
         if board.game_over

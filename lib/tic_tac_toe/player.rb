@@ -11,4 +11,12 @@ module TicTacToe
 
   class Human < Player
   end
+
+  # AI player
+  class AI < Player
+    def initialize
+      @color = 'O'
+      @name = 'AI'
+    end
+  end
 end

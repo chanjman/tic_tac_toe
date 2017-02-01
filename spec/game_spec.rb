@@ -39,7 +39,7 @@ module TicTacToe
       it 'asks the player to make a move' do
         game = Game.new([mario, martina])
         allow(game).to receive(:current_player) { mario }
-        expected = "It's mario's turn; Enter a number between 1 and 9"
+        expected = "mario: Enter a number between 1 and 9"
         expect(game.solicit_move).to eq(expected)
       end
     end

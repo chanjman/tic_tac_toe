@@ -28,4 +28,26 @@ module TicTacToe
       end
     end
   end
+
+  describe AI do
+    context '#initialize' do
+      it 'does not raise exception when initialized with empty hash' do
+        expect { AI.new }.not_to raise_error
+      end
+    end
+
+    context '#name' do
+      it 'initializes AI with the name AI' do
+        ai = AI.new
+        expect(ai.name).to eq 'AI'
+      end
+    end
+
+    context '#color' do
+      it "initializes AI with color 'O'" do
+        ai = AI.new
+        expect(ai.color).to eq 'O'
+      end
+    end
+  end
 end
