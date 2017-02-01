@@ -15,9 +15,13 @@ module TicTacToe
 
     def play
       board.formatted_grid
-      board.move(3, 'x')
+      board.move(3, 'O')
+      board.move(4, 'O')
+      board.move(5, 'O')
       system 'clear'
       board.formatted_grid
+      p board.possible_moves
+      board.win?
     end
   end
 end
