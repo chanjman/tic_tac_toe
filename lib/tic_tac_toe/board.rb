@@ -7,42 +7,61 @@ module TicTacToe
     SIZE = DIM * DIM
 
     def initialize(grid = nil)
-      @grid = grid || Array.new(SIZE) { '-' }
+      @grid = grid || Array.new(SIZE) { '' }
     end
 
     def move(idx, color)
       grid[idx] = color
     end
 
+    def get_grid_value(idx)
+      grid[idx]
+    end
+
     def formatted_grid
-      rows = grid.each_slice(DIM).to_a
       rows.each do |row|
-        puts row.map.with_index { |cell, idx| cell == '-' ? '[-]' : "[#{cell}]" }.join('  ')
+        puts row.map { |cell| cell == '' ? '[-]' : "[#{cell}]" }.join('  ')
       end
     end
 
     def possible_moves
-      @grid.map.with_index { |p, idx| idx if p == '-' }.compact
+      @grid.map.with_index { |p, idx| idx if p == '' }.compact
     end
 
-    def game_over
-      win? || draw?
+    def game_over?
+      return :win if win?
+      return :draw if draw?
+      false
     end
 
-    def colors
-      ['X', 'O']
-    end
+    private
 
     def win?
-      rows = grid.each_slice(DIM).to_a
-      p rows.any? { |row| row.all? { |p| colors.include? p }} ||
-        rows.transpose.any? { |col| col.all? { |p| colors.include? p }} ||
-        rows.map.with_index.all? { |row, idx| colors.include? row[idx] } ||
-        rows.map.with_index.all? { |row, idx| colors.include? row[DIM - 1 - idx] }
+      winning_positions.any? do |wp|
+        next if wp.all_empty?
+        wp.all_same?
+      end
     end
 
     def draw?
       possible_moves.empty?
+    end
+
+    def rows
+      grid.each_slice(DIM).to_a
+    end
+
+    def winning_positions
+      rows +
+        rows.transpose +
+        diagonals
+    end
+
+    def diagonals
+      [
+        rows.each_with_index.map { |row, idx| row[idx] },
+        rows.each_with_index.map { |row, idx| row[DIM - 1 - idx] }
+      ]
     end
   end
 end

@@ -13,15 +13,27 @@ module TicTacToe
       "#{current_player.name}: Enter a number between 1 and 9"
     end
 
+    def switch_players
+      @current_player, @other_player = @other_player, @current_player
+    end
+
     def play
       board.formatted_grid
-      board.move(3, 'O')
-      board.move(4, 'O')
-      board.move(5, 'O')
       system 'clear'
+      #p board.winning_positions
+      board.move(0, 'X')
+      #board.move(1, 'X')
+      #board.move(2, 'X')
+      board.move(3, 'O')
+      #board.move(4, 'O')
+      #board.move(5, 'X')
+      board.move(6, 'O')
+      #board.move(7, 'X')
+      #board.move(8, 'O')
       board.formatted_grid
-      p board.possible_moves
-      board.win?
+      p board.game_over?
+      #board.formatted_grid
+      #p board.turn
     end
   end
 end

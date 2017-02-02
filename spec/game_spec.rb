@@ -44,18 +44,6 @@ module TicTacToe
       end
     end
 
-    context '#get_move' do
-      it 'converts human_move of 1 to [0, 0]' do
-        game = Game.new([mario, martina])
-        expect(game.move_to_coordinate('1')).to eq([0, 0])
-      end
-
-      it 'converts human move of 5 to [1, 1]' do
-        game = Game.new([mario, martina])
-        expect(game.move_to_coordinate('5')).to eq([1, 1])
-      end
-    end
-
     context '#game_over_message' do
       it "returns '{current_player name} won!' if board show a winner" do
         game = Game.new([mario, martina])
