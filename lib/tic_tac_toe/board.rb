@@ -25,7 +25,7 @@ module TicTacToe
     end
 
     def possible_moves
-      @grid.map.with_index { |p, idx| idx if p == '' }.compact
+      @grid.map.with_index { |position, idx| idx if position == '' }.compact
     end
 
     def game_over?

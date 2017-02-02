@@ -48,23 +48,23 @@ module TicTacToe
       it "returns '{current_player name} won!' if board show a winner" do
         game = Game.new([mario, martina])
         allow(game).to receive(:current_player) { mario }
-        allow(game.board).to receive(:game_over) { :winner }
+        allow(game.board).to receive(:game_over?) { :win }
         expect(game.game_over_message).to eq('mario won!')
       end
 
       it "returns 'The game ended in a tie.' if board shows a draw" do
         game = Game.new([mario, martina])
         allow(game).to receive(:current_player) { mario }
-        allow(game.board).to receive(:game_over) { :draw }
-        expect(game.game_over_message).to eq 'The game ended in a tie.'
+        allow(game.board).to receive(:game_over?) { :draw }
+        expect(game.game_over_message).to eq "It's a tie."
       end
     end
 
-    context '#invalid_move' do
-      it 'returns false input is not between 1 and 9' do
+    context '#get_move' do
+      it 'returns error message if input not a number' do
         game = Game.new([mario, martina])
-        allow(game).to receive(:current_player) { mario }
-        expect(game.check_if_move_valid('54')).to be_falsey
+        allow(Board).to receive(:SIZE) { 3 }
+        expect(game.get_move('qwerty')).to eq("Error. That is not a number between 1 and 9")
       end
 
       it 'returns false if input is not a number' do
