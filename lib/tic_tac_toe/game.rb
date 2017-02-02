@@ -3,14 +3,14 @@ module TicTacToe
   class Game
     attr_reader :players, :board, :current_player, :other_player
 
-    def initialize(players, board = Board.new)
-      @players = players
-      @board = board
-      @current_player, @other_player = players.shuffle
+    def initialize(args)
+      @players = args[:players]
+      @board = args.fetch(:board, board = Board.new)
+      @current_player, @other_player = @players.shuffle
     end
 
     def solicit_move
-      "#{current_player.name}: Enter a number between 1 and #{Board::SIZE}"
+      "#{current_player.name}: Enter a number between 1 and #{Board::SIZE}."
     end
 
     def switch_players
@@ -18,7 +18,8 @@ module TicTacToe
     end
 
     def get_move(input = nil)
-      until (1..Board::SIZE).cover? input.to_i
+      loop do
+        break if (1..Board::SIZE).cover? input.to_i
         puts solicit_move
         input = validate_input((gets.chomp).to_i)
       end
@@ -27,8 +28,7 @@ module TicTacToe
 
     def validate_input(input)
       return position = validate_position(input) if (1..Board::SIZE).cover? input
-      p "Error. That is not a number between 1 and #{Board::SIZE}"
-      position
+      puts "Error. That is not a number between 1 and #{Board::SIZE}."
     end
 
     def validate_position(position)
@@ -39,9 +39,9 @@ module TicTacToe
     def game_over_message
       case board.game_over?
       when :win
-        p "#{current_player.name} won!"
+        puts "#{current_player.name} won!"
       when :draw
-        p "It's a tie."
+        puts "It's a tie."
       end
     end
 

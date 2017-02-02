@@ -5,6 +5,11 @@ puts ''
 
 player_1 = TicTacToe::Human.new(color: 'X', name: 'Mario')
 player_2 = TicTacToe::Human.new(color: 'O', name: 'Martina')
-players = [player_1, player_2]
+playerz = [player_1, player_2]
+grid = [
+  'X', '', '',
+  'X', '', '',
+  'O', '', ''
+]
 
-TicTacToe::Game.new(players).play
+TicTacToe::Game.new(:players => playerz).play

@@ -33,6 +33,7 @@ module TicTacToe
     let(:x_cell) { TestCell.new('X') }
     let(:o_cell) { TestCell.new('O') }
     let(:empty) { TestCell.new('') }
+    let(:board) { Board.new }
 
     context '#game_over?' do
       it 'returns :win if win? is true' do
