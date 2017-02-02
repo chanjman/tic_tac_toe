@@ -5,7 +5,7 @@ module TicTacToe
 
     def initialize(args)
       @players = args[:players]
-      @board = args.fetch(:board, board = Board.new)
+      @board = args.fetch(:board, Board.new)
       @current_player, @other_player = @players.shuffle
     end
 
@@ -27,12 +27,12 @@ module TicTacToe
     end
 
     def validate_input(input)
-      return position = validate_position(input) if (1..Board::SIZE).cover? input
+      return validate_position(input) if (1..Board::SIZE).cover? input
       puts "Error. That is not a number between 1 and #{Board::SIZE}."
     end
 
     def validate_position(position)
-      return position if board.possible_moves.include? (position - 1)
+      return position if board.possible_moves.include? position - 1
       puts 'That position is not empty.'
     end
 

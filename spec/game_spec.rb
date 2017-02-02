@@ -4,7 +4,7 @@ module TicTacToe
   describe Game do
     let(:mario) { Player.new(color: 'X', name: 'mario') }
     let(:martina) { Player.new(color: 'O', name: 'martina') }
-    let(:game) { Game.new(:players => [mario, martina]) }
+    let(:game) { Game.new(players: [mario, martina]) }
 
     context '#initialize' do
       it 'randomly selects a current_player' do
@@ -35,7 +35,14 @@ module TicTacToe
     context '#solicit_move' do
       it 'asks the player to make a move' do
         allow(game).to receive(:current_player) { mario }
-        expected = "mario: Enter a number between 1 and 9."
+        expected = 'mario: Enter a number between 1 and 9.'
+        expect(game.solicit_move).to eq(expected)
+      end
+
+      it 'changes message accordingly to board SIZE' do
+        stub_const('TicTacToe::Board::SIZE', 25)
+        allow(game).to receive(:current_player) { mario }
+        expected = 'mario: Enter a number between 1 and 25.'
         expect(game.solicit_move).to eq(expected)
       end
     end
@@ -44,18 +51,18 @@ module TicTacToe
       it "returns '{current_player name} won!' if board show a winner" do
         allow(game).to receive(:current_player) { mario }
         allow(game.board).to receive(:game_over?) { :win }
-        expect{ game.game_over_message }.to output(/mario won!/).to_stdout
+        expect { game.game_over_message }.to output(/mario won!/).to_stdout
       end
 
       it "returns 'The game ended in a tie.' if board shows a draw" do
         allow(game).to receive(:current_player) { mario }
         allow(game.board).to receive(:game_over?) { :draw }
-        expect{ game.game_over_message }.to output(/It's a tie./).to_stdout
+        expect { game.game_over_message }.to output(/It's a tie./).to_stdout
       end
     end
 
     context '#get_move' do
-      it 'prompts the user to enter the number again if it is incorrect' do
+      it 'prompts the user to enter the number again if it is NaN' do
         allow(game).to receive(:gets).and_return('qwerty')
         allow(game).to receive(:loop).and_yield
         expect { game.get_move }
@@ -63,11 +70,20 @@ module TicTacToe
           .to_stdout
       end
 
-      it 'prompts the user to enter the number again if it is incorrect' do
+      it 'prompts the user to enter the number again if it is not 1-9' do
         allow(game).to receive(:gets).and_return('12345')
         allow(game).to receive(:loop).and_yield
         expect { game.get_move }
           .to output(/Error. That is not a number between 1 and 9./)
+          .to_stdout
+      end
+
+      it 'changes message accordingly to board SIZE' do
+        stub_const('TicTacToe::Board::SIZE', 25)
+        allow(game).to receive(:gets).and_return('12345')
+        allow(game).to receive(:loop).and_yield
+        expect { game.get_move }
+          .to output(/Error. That is not a number between 1 and 25./)
           .to_stdout
       end
 
@@ -83,7 +99,7 @@ module TicTacToe
           '',  '',  'O',
           '',  'X', 'O'
         ]
-        game = Game.new(:players => [mario, martina], :board => Board.new(grid))
+        game = Game.new(players: [mario, martina], board: Board.new(grid))
         allow(game).to receive(:gets).and_return('1')
         allow(game).to receive(:loop).and_yield
         expect { game.get_move }
