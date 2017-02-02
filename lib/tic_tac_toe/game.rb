@@ -55,7 +55,7 @@ module TicTacToe
         if board.game_over?
           game_over_message
           board.formatted_grid
-          return
+          exit
         else
           switch_players
         end
