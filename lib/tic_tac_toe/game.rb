@@ -10,7 +10,7 @@ module TicTacToe
     end
 
     def solicit_move
-      "#{current_player.name}: Enter a number between 1 and #{Board::SIZE}."
+      "#{current_player.name} (#{current_player.color}): Enter a number between 1 and #{Board::SIZE}."
     end
 
     def switch_players

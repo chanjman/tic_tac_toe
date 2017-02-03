@@ -2,9 +2,11 @@ require_relative '../lib/tic_tac_toe.rb'
 
 puts 'Welcome to Tic Tac Toe'
 puts ''
+puts 'First player to move has been randomly selected.'
+puts ''
 
-player1 = TicTacToe::Human.new(color: 'X', name: 'Mario')
-player2 = TicTacToe::Human.new(color: 'O', name: 'Martina')
+player1 = TicTacToe::Player.new(color: 'X', name: 'Player 1')
+player2 = TicTacToe::Player.new(color: 'O', name: 'Player 2')
 playerz = [player1, player2]
 
 TicTacToe::Game.new(players: playerz).play

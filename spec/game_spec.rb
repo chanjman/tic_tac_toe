@@ -35,14 +35,14 @@ module TicTacToe
     context '#solicit_move' do
       it 'asks the player to make a move' do
         allow(game).to receive(:current_player) { mario }
-        expected = 'mario: Enter a number between 1 and 9.'
+        expected = 'mario (X): Enter a number between 1 and 9.'
         expect(game.solicit_move).to eq(expected)
       end
 
       it 'changes message accordingly to board SIZE' do
         stub_const('TicTacToe::Board::SIZE', 25)
         allow(game).to receive(:current_player) { mario }
-        expected = 'mario: Enter a number between 1 and 25.'
+        expected = 'mario (X): Enter a number between 1 and 25.'
         expect(game.solicit_move).to eq(expected)
       end
     end
